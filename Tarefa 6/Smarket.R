@@ -1,4 +1,3 @@
-Programa Aula 31022026
 #regressão Logistica
 
 #bibliotecas
