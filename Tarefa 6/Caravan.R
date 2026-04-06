@@ -1,81 +1,49 @@
-#regressão Logistica
+# Regressão Logística - Caravan
+rm(list=ls())
+
+library(ISLR2)
 library(caret)
 library(pROC)
 
-ISLR2::Caravan
-dados2<-ISLR2::Caravan
-names(dados2)
+# Carregar dados
+dados <- ISLR2::Caravan
 
+# Separação treino/teste
 set.seed(123)
-particao <- sample(seq_len(nrow(dados2)), size = 0.7*nrow(dados2))
-dados2treino <- dados2[particao, ]
-dados2teste  <- dados2[-particao, ]
+particao <- sample(seq_len(nrow(dados)), size=0.7*nrow(dados))
+treino <- dados[particao, ]
+teste  <- dados[-particao, ]
 
-prop.table(table(dados2treino$Purchase)); 
-prop.table(table(dados2teste$Purchase))
+# Modelo
+modelo <- glm(Purchase ~ ., data=treino, family=binomial)
+summary(modelo)
 
-modelologistio01<-glm(Purchase~APLEZIER+PBRAND+PPERSAUT,
-                      data = dados2treino, 
-                      family = binomial)
+# Predição
+probabilidade <- predict(modelo, newdata=teste, type="response")
 
-summary(modelologistio01)
+# ROC e melhor threshold
+roc_obj <- roc(response=teste$Purchase, predictor=probabilidade, levels=c("No","Yes"), direction="<")
+melhor_coordenada <- coords(roc_obj, "best", ret=c("threshold","sensitivity","specificity"))
+melhor_coordenada1 <- roc_obj$thresholds[188]
 
-prob_modelologistico01<-predict(modelologistio01,
-                                newdata = dados2teste, 
-                                type = "response")
+# Classificação
+resposta <- ifelse(probabilidade < as.numeric(melhor_coordenada[1]), "No", "Yes")
+resposta <- as.factor(resposta)
 
-roc_obj <- roc(response = dados2teste$Purchase , 
-               predictor = prob_modelologistico01, 
-               levels = c("No","Yes"), 
-               direction = "<")
+# Matriz de confusão
+thr <- melhor_coordenada[1]
+classe_predita <- ifelse(probabilidade > as.numeric(thr), "Yes", "No")
+tabela <- table(Predito=classe_predita, Real=teste$Purchase)
+tabela
 
-melhor_coordenada<- coords(roc_obj, "best", ret = c("threshold","sensitivity","specificity"))
+# Métricas
+acuracia <- mean(classe_predita == teste$Purchase)
+sensibilidade <- mean(classe_predita[teste$Purchase=="Yes"]=="Yes")
+especificidade <- mean(classe_predita[teste$Purchase=="No"]=="No")
+c(acuracia=acuracia, sensibilidade=sensibilidade, especificidade=especificidade)
 
-roc_obj$sensitivities+roc_obj$specificities
-which.max(roc_obj$sensitivities+roc_obj$specificities)
-
-melhor_coordenada1<-roc_obj$thresholds[which.max(roc_obj$sensitivities+roc_obj$specificities)]
-
-thr <- melhor_coordenada["threshold"]
-
-pred_class <- ifelse(prob_modelologistico01 > as.numeric(thr), "Yes", "No")
-
-tabela_predicao <- table(Predito = pred_class, Real = dados2teste$Purchase)
-tabela_predicao
-
-accuracy <- mean(pred_class == dados2teste$Purchase)
-sensitivity <- mean(pred_class[dados2teste$Purchase=="No"] == "No")
-specificity <- mean(pred_class[dados2teste$Purchase=="Yes"]  == "Yes")
-
-c(accuracy = accuracy, sensitivity = sensitivity, specificity = specificity)
-
-accuracy1 <-(tabela_predicao[1,1]+tabela_predicao[2,2])/(sum(tabela_predicao)) 
-sensitivity1 <-(tabela_predicao[1,1]/sum(tabela_predicao[,1]))
-specificity1 <- (tabela_predicao[2,2]/sum(tabela_predicao[,2]))
-
-c(accuracy1 = accuracy1, sensitivity1 = sensitivity1, specificity1 = specificity1)
-
-thr <- melhor_coordenada1
-
-pred_class <- ifelse(prob_modelologistico01 > as.numeric(thr), "Yes", "No")
-
-tabela_predicao <- table(Predito = pred_class, Real = dados2teste$Purchase)
-tabela_predicao
-
-accuracy <- mean(pred_class == dados2teste$Purchase)
-sensitivity <- mean(pred_class[dados2teste$Purchase=="No"] == "No")
-specificity <- mean(pred_class[dados2teste$Purchase=="Yes"]  == "Yes")
-
-c(accuracy = accuracy, sensitivity = sensitivity, specificity = specificity)
-
-accuracy1 <-(tabela_predicao[1,1]+tabela_predicao[2,2])/(sum(tabela_predicao)) 
-sensitivity1 <-(tabela_predicao[1,1]/sum(tabela_predicao[,1]))
-specificity1 <- (tabela_predicao[2,2]/sum(tabela_predicao[,2]))
-
-c(accuracy1 = accuracy1, sensitivity1 = sensitivity1, specificity1 = specificity1)
-
-resumo<-confusionMatrix(as.factor(pred_class), dados2teste$Purchase)
-
+# ConfusionMatrix caret
+resumo <- confusionMatrix(resposta, teste$Purchase, positive="Yes")
 resumo
 resumo$table
 resumo$overall
