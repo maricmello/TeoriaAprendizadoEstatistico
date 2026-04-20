@@ -7,7 +7,7 @@ auto <- read.csv("D:/mary-/Downloads/Mariana Costa - autos.csv")
 # Ajuste de tipos
 auto$origin <- as.factor(auto$origin)
 
-# Modelo Linear: tirei displacement por redundância e name por ser texto
+# Modelo Linear: sem displacement por redundância e name por ser texto
 mod_auto <- lm(mpg ~ cylinders + horsepower + weight + acceleration + model_year + origin, data=auto)
 
 
