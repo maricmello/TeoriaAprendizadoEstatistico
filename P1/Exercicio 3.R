@@ -3,8 +3,11 @@ rm(list=ls())
 library(caret)
 library(pROC)
 
+# Leitura dos dados
 heart <- read.csv("D:/mary-/Downloads/Mariana Costa - heart_disease_uci.csv")
 str(heart)
+
+# Ajuste de tipos
 heart$target <- factor(heart$target, levels=c(0, 1), labels=c("No", "Yes"))
 
 # Partição 70/30
