@@ -82,12 +82,24 @@ Utilizando a curva **ROC** para definir o melhor ponto de corte (threshold), o m
 
 **Análise Clínica:** O modelo priorizou a **Sensibilidade (90,62%)**, o que é vital em diagnósticos médicos. Isso significa que o modelo é excelente em identificar quem realmente tem a doença, minimizando os "Falsos Negativos" (deixar uma pessoa doente sem diagnóstico).
 
-
 ---
 
-## 🛠️ Tecnologias e Ferramentas
-* **Linguagem:** R
-* **Principais Funções:** `lm()`, `summary()`, `as.factor()`
-* **Dataset:** `autos.csv`
+## 🛠️ Tecnologias e Ferramentas Consolidadas
 
+Para a realização desta prova, utilizou-se o ambiente estatístico **R**, explorando desde regressões lineares clássicas até modelos de classificação probabilística.
+
+* **Linguagem principal:** R (v4.x)
+* **Modelagem Estatística:**
+    * `lm()`: Regressão Linear Múltipla (Exercícios 1 e 2).
+    * `glm(family=binomial)`: Regressão Logística para classificação (Exercício 3).
+* **Bibliotecas (Packages):**
+    * `caret`: Utilizada para partição de dados (`createDataPartition` / `sample`) e geração da Matriz de Confusão detalhada.
+    * `pROC`: Essencial para a criação da curva ROC e cálculo do melhor limiar (*threshold*) de decisão via coordenadas.
+* **Manipulação e Validação:**
+    * `predict()`: Geração de predições para dados de teste.
+    * Funções Customizadas: Criação de funções matemáticas manuais para validação dos coeficientes dos modelos.
+* **Datasets Processados:**
+    * `autos.csv`: Análise de eficiência de combustível.
+    * `boston_housing.csv`: Precificação imobiliária.
+    * `heart_disease_uci.csv`: Diagnóstico de saúde cardiovascular.
 ---
