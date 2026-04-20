@@ -3,6 +3,7 @@ rm(list=ls())
 
 # Leitura dos dados
 auto <- read.csv("D:/mary-/Downloads/Mariana Costa - autos.csv")
+str(auto)
 
 # Ajuste de tipos
 auto$origin <- as.factor(auto$origin)
