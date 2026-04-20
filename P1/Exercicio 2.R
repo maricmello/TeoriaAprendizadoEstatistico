@@ -1,6 +1,7 @@
 # Exercicio 2 - Boston
 rm(list=ls())
 
+# Leitura dos dados
 boston <- read.csv("D:/mary-/Downloads/Mariana Costa - boston_housing.csv")
 str(boston)
 
