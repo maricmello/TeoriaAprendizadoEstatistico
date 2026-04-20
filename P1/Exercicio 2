@@ -1,0 +1,27 @@
+# Exercicio 2 - Boston
+rm(list=ls())
+
+boston <- read.csv("D:/mary-/Downloads/Mariana Costa - boston_housing.csv")
+str(boston)
+
+# Modelo completo
+mod2 <- lm(medv ~ crim + nox + rm + age + tax + lstat, data=boston)
+summary(mod2)
+
+# Tirando 'age' (p-valor alto)
+mod2 <- lm(medv ~ crim + nox + rm + tax + lstat, data=boston)
+summary(mod2)
+
+# Validando função na mão
+b <- mod2$coefficients
+calc_boston <- function(x1,x2,x3,x4,x5){
+  y <- b[1] + b[2]*x1 + b[3]*x2 + b[4]*x3 + b[5]*x4 + b[6]*x5
+  return(y)
+}
+
+# Teste manual vs predict
+predicao <- predict(mod2, newdata=boston)
+p_manual <- calc_boston(boston$crim, boston$nox, boston$rm, boston$tax, boston$lstat)
+
+predicao[1]
+p_manual[1]
