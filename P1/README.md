@@ -29,12 +29,58 @@ mod_auto <- lm(mpg ~ horsepower + weight, data=auto)
 
 ---
 
-## 🕒 Exercício 2: 
+## 📈 Exercício 2: Valor Imobiliário - Dataset *Boston*
 
+Neste exercício, o objetivo foi prever o valor mediano das casas (`medv`) em Boston. O modelo passou por um processo de simplificação para manter apenas variáveis com real significância estatística.
+
+### Refinamento do Modelo (Backward Elimination)
+As variáveis foram removidas seguindo o critério de maior p-valor ($p > 0,05$):
+1.  **Remoção de `age`:** Apresentou p-valor de **0.987**, indicando que a idade da construção não influenciava o preço significativamente neste contexto.
+2.  **Remoção de `crim`:** Apresentou p-valor de **0.541**. Embora seja um fator social comum, não apresentou força estatística comparado aos outros preditores.
+
+### Modelo Final
+O modelo final foi consolidado com 4 preditores altamente significativos:
+```R
+mod2 <- lm(medv ~ nox + rm + tax + lstat, data=boston)
+```
+* **Variáveis Significativas:** Poluição (`nox`), Número de Quartos (`rm`), Imposto (`tax`) e Status Socioeconômico (`lstat`).
+* **R² Ajustado:** 0.653
+
+### Validação por Cálculo Manual
+Para validar a equação matemática gerada pelo R, foi implementada uma função manual para replicar a predição:
+* **Equação:** $y = \beta_0 + (\beta_1 \cdot nox) + (\beta_2 \cdot rm) + (\beta_3 \cdot tax) + (\beta_4 \cdot lstat)$
+* **Resultado Predict (R):** $38.08821$
+* **Resultado Manual:** $38.08821$
 
 ---
 
-## 🕒 Exercício 3: 
+## 📈 Exercício 3: Classificação de Doença Cardíaca - Dataset *Heart*
+
+Neste exercício, o objetivo foi classificar a presença de doença cardíaca (`target`) com base em indicadores clínicos, utilizando um modelo de **Regressão Logística Binomial**.
+
+### Metodologia de Treinamento
+Para garantir a validade do modelo, os dados foram divididos em duas frentes:
+* **Treino (70%):** Utilizado para ajustar os coeficientes do modelo.
+* **Teste (30%):** Utilizado para verificar o poder de predição em dados que o modelo nunca viu.
+
+### Variáveis Significativas
+Dentre os indicadores, os que mais influenciaram a probabilidade de doença cardíaca (p-valor < 0,05) foram:
+* **Idade (`age`)** e **Colesterol (`chol`)**.
+* **Angina induzida por exercício (`exang`)**.
+* **Frequência cardíaca máxima (`thalach`)**.
+* **Número de vasos principais coloridos por fluoroscopia (`ca`)**.
+
+### Performance e Matriz de Confusão
+Utilizando a curva **ROC** para definir o melhor ponto de corte (threshold), o modelo apresentou os seguintes resultados na base de teste:
+
+| Métrica | Resultado |
+| :--- | :--- |
+| **Acurácia (Accuracy)** | 70,33% |
+| **Sensibilidade (Recall)** | **90,62%** |
+| **Especificidade** | 59,32% |
+| **Precisão (Pos Pred Value)** | 54,72% |
+
+**Análise Clínica:** O modelo priorizou a **Sensibilidade (90,62%)**, o que é vital em diagnósticos médicos. Isso significa que o modelo é excelente em identificar quem realmente tem a doença, minimizando os "Falsos Negativos" (deixar uma pessoa doente sem diagnóstico).
 
 
 ---
