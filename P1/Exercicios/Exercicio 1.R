@@ -2,7 +2,7 @@
 rm(list=ls())
 
 # Leitura dos dados
-auto <- read.csv("D:/mary-/Downloads/Mariana Costa - autos.csv")
+auto <- read.csv("D:/mary-/Downloads/Teoria do Aprendizado Estatístico/Mariana Costa - autos.csv")
 str(auto)
 
 # Ajuste de tipos
@@ -12,18 +12,18 @@ auto$origin <- as.factor(auto$origin)
 mod_auto <- lm(mpg ~ cylinders + horsepower + weight + acceleration + model_year + origin, data=auto)
 summary(mod_auto)
 
-#Retirando cylinders
+#Retirando cylinders (p-valor alto: 0,804)
 mod_auto <- lm(mpg ~ horsepower + weight + acceleration + model_year + origin, data=auto)
 summary(mod_auto)
 
-#Retirando origin
+#Retirando origin (p-valor alto: 0,817)
 mod_auto <- lm(mpg ~ horsepower + weight + acceleration + model_year, data=auto)
 summary(mod_auto)
 
-#Retirando acceleration
+#Retirando acceleration (p-valor alto: 0,434)
 mod_auto <- lm(mpg ~ horsepower + weight+ model_year, data=auto)
 summary(mod_auto)
 
-#Retirando model_year
+#Retirando model_year (p-valor alto: 0,465)
 mod_auto <- lm(mpg ~ horsepower + weight, data=auto)
 summary(mod_auto)
