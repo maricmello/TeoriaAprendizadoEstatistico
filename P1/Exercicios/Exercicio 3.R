@@ -4,7 +4,7 @@ library(caret)
 library(pROC)
 
 # Leitura dos dados
-heart <- read.csv("D:/mary-/Downloads/Mariana Costa - heart_disease_uci.csv")
+heart <- read.csv("D:/mary-/Downloads/Teoria do Aprendizado Estatístico/Mariana Costa - heart_disease_uci.csv")
 str(heart)
 
 # Ajuste de tipos
@@ -34,3 +34,12 @@ tabela
 
 # Métricas caret
 confusionMatrix(pred_final, teste$target, positive="Yes")
+
+#Acurácia: 70,33%
+#Sensibilidade: 90,62%
+#Especificidade 59,32%
+#Mostrando que o modelo tem apenas baixo desempenho na identificação de indíviduos saudáveis.
+#Houve apenas 3 falsos negativos
+#Considerando contexto médico isso é um bom sinal.
+
+#
