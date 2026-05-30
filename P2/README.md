@@ -1,4 +1,4 @@
-# Lista de Exercícios de Aprendizado de Máquina em R
+# P2 Teoria do Aprendizado Estatístico
 
 ## Objetivo
 
