@@ -172,26 +172,34 @@ e critério de divisão:
 split = "gini"
 ```
 
-## Avaliação
+## Matriz de Confusão
 
-A avaliação foi realizada através da função:
-
-```r
-confusionMatrix()
+```text
+          Reference
+Prediction  M  R
+         M 19  3
+         R 14 26
 ```
 
-que fornece:
+## Avaliação
 
-- Matriz de Confusão
-- Acurácia
-- Sensibilidade
-- Especificidade
+Resultados obtidos:
+
+```text
+Accuracy = 0.7258
+Kappa = 0.4617 (concordância moderada entre as previsões e os valores reais)
+Sensitivity = 0.5758 (modelo teve maior dificuldade em identificar corretamente todos os exemplos da classe positiva)
+Specificity = 0.8966 (boa capacidade de identificar corretamente a classe negativa)
+Balanced Accuracy = 0.7362
+```
+
+### Interpretação
+
+- O modelo classificou corretamente 45 das 62 observações do conjunto de teste.
 
 ## Conclusão
 
-A árvore de classificação foi treinada com sucesso e utilizada para prever corretamente as classes "R" e "M" no conjunto de teste.
-
----
+A árvore de classificação apresentou desempenho satisfatório para o problema de identificação de minas e rochas, obtendo uma acurácia de 72,58% no conjunto de teste. O modelo conseguiu capturar padrões relevantes da base Sonar e produzir classificações úteis para o problema proposto.
 
 # Exercício 3 – Regressão Logística Multiclasse com a Base Penguins
 
